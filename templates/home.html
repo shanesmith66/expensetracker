@@ -3,16 +3,17 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
+<div class="home-content">
     <h1>Homepage</h1>
     {% if user.is_authenticated %}
     <!-- REDIRECT THEM TO EXPENSES PAGE... -->
         Hi {{ user.email }}
-        <p><a href="{% url 'logout' %}">Log Out</a></p>
+        <p><a href="{% url 'account_logout' %}">Log Out</a></p>
     {% else %}
     <!-- REDIRECT TO LOGIN PAGE -->
     <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a>
-    <a href="{% url 'signup' %}">Sign Up</a>
+    <a href="{% url 'account_login' %}">Log In</a>
+    <a href="{% url 'account_signup' %}">Sign Up</a>
     {% endif %}
-
+</div>
 {% endblock content %}

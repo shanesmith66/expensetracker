@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Log Out{% endblock %}
+<head>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+
+{% block content %}
+<div class="login-box">
+    <div class="login-box-content">
+        <h2>Are you sure you want to log out?</h2>
+        <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-outline-success login-btn" type="submit" value="account_logout">Log Out</button>
+        <button class="btn btn-success login-btn" type="submit" value="home">Go Back</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
