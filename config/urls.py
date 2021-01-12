@@ -27,4 +27,5 @@ urlpatterns = [
 
     # local
     path('', include('pages.urls')),
+    path('expenses/', include('expenses.urls')),
 ]
