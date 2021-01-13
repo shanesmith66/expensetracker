@@ -1,0 +1,33 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}{{ object.name }}{% endblock title %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+
+{% block content %}
+<div class="budget-detail-page">
+
+    <h2>Budget: {{ object.name }}, Created: {{ object.created_at}}</h2>
+    <p>Total Budget: {{ object.budget_amount }}</p>
+
+    <div class="budget-row">
+    
+        <div class="row">
+            <div class="col-md">
+            One of three columns
+            </div>
+            <div class="col-md">
+            One of three columns
+            </div>
+            <div class="col-md">
+            One of three columns
+            </div>
+        </div>
+    
+    
+    </div>
+</div>
+{% endblock content %}

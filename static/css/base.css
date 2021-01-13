@@ -79,4 +79,19 @@ body {
 /* ------ NAVBAR ------ */
 
 
+/* Budget Detail Screen */
+
+.budget-detail-page {
+    background-color: #f7f7f7;
+    position: center;
+    margin-top: 56px;
+    height: 100%;
+    width: 98%;
+    margin-left: 1%;
+    box-shadow: -2px 4px 0 rgba(9, 30, 66, 0.25);
+    text-align: center;
+
+}
+
+
 

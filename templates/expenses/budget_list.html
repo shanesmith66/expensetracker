@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+
+{% block title %}Budgets{% endblock title %}
+
+{% block content %}
+
+    {% for budget in object_list %}
+    <div class="login-box">
+        <p><a href="{% url 'budget_detail' budget.slug %}">{{ budget.name }}</a></p>
+    </div>
+    {% endfor %}
+
+{% endblock content %}
