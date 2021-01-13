@@ -29,9 +29,9 @@ body {
     padding-top: 70px;
 }
 
-/* .container {
-    position: relative;
-} */
+.container {
+    padding: 0;
+}
 
 
 /* ------ LOGIN SCREEN ------ */
@@ -82,16 +82,38 @@ body {
 /* Budget Detail Screen */
 
 .budget-detail-page {
-    background-color: #f7f7f7;
+    background-color: #5cb85c;
     position: center;
-    margin-top: 56px;
-    height: 100%;
-    width: 98%;
-    margin-left: 1%;
-    box-shadow: -2px 4px 0 rgba(9, 30, 66, 0.25);
-    text-align: center;
+    margin-top: 70px;
 
+    height: 100%;
+    width: 100%;
 }
+
+.budget-detail-title {
+    margin-bottom: 25px;
+    width: auto;
+}
+
+/* .row {
+    margin-left: auto;
+    margin-right: auto;
+} */
+
+
+.box {
+    text-align: center;
+}
+
+.box-content {
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 2px rgba(9, 30, 66, 0.25);
+    font-size: 350%;
+    word-spacing: 4px;
+}
+
+
+
 
 
 

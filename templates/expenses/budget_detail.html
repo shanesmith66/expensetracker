@@ -3,17 +3,23 @@
 
 {% block title %}{{ object.name }}{% endblock title %}
 
-<head>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-</head>
 
 {% block content %}
 <div class="budget-detail-page">
 
-    <h2>Budget: {{ object.name }}, Created: {{ object.created_at}}</h2>
-    <p>Total Budget: {{ object.budget_amount }}</p>
+    <div class="budget-detail-title">
+        <div class="row">
+            <div class="col-md-7 pr-8 pl-0 title-box box">
+                <div class="mr-0 box-content">{{ object.name }}</div>
+            </div>
+            <div class="col-md-5 pr-0 date-box box">
+                <div class="ml-10 box-content">{{ object.created_at}}</div>
+            </div>
+        </div>
+    </div>
 
     <div class="budget-row">
+        <p>Total Budget: {{ object.budget_amount }}</p>
     
         <div class="row">
             <div class="col-md">
