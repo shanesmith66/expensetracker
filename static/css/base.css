@@ -29,9 +29,7 @@ body {
     padding-top: 70px;
 }
 
-.container {
-    padding: 0;
-}
+
 
 
 /* ------ LOGIN SCREEN ------ */
@@ -78,6 +76,20 @@ body {
 
 /* ------ NAVBAR ------ */
 
+/* ------ CONTAINER ------ */
+
+.container {
+    margin-top: 70px;
+}
+
+
+/* ------ Budget List View ------ */
+
+.budget-list {
+    margin-top: 70px;
+}
+
+
 
 /* Budget Detail Screen */
 
@@ -95,22 +107,56 @@ body {
     width: auto;
 }
 
-/* .row {
-    margin-left: auto;
-    margin-right: auto;
-} */
-
-
-.box {
-    text-align: center;
+.button-row {
+    margin-top: 25px;
+    margin-bottom: 50px;
 }
 
 .box-content {
     background-color: #f7f7f7;
-    box-shadow: 0 4px 2px rgba(9, 30, 66, 0.25);
-    font-size: 350%;
-    word-spacing: 4px;
+    box-shadow: 2px 4px 0 rgba(9, 30, 66, 0.5);
+    font-size: 250%;
+    text-align: left;
+    font-weight: 400;
+    font-style: bold;
+    padding-left: 2rem;
 }
+
+.bar-chart-content {
+    height: 100%;
+}
+
+.box-subheading {
+    font-size: 60%;
+    padding-top: 10px;
+    font-style: italic;
+    font-weight: 300;
+    text-align: left;
+    padding-right: 10px;
+}
+
+
+.add-expense,
+.edit-budget {
+    position: absolute;
+    right: 0px;
+    padding: 3px 50px;
+}
+
+.expense-list {
+    box-shadow: 2px 4px 0 rgba(9, 30, 66, 0.5);
+}
+
+.expense-row {
+    background-color: #f7f7f7;
+    font-size: 130%;
+    text-align: center;
+}
+
+.expense-list .expense-row:nth-child(even) {
+    background-color: #e6e6e6;
+}
+
 
 
 

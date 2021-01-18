@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from django.urls import reverse
 
 # Create your models here.
 class Budget(models.Model):
@@ -8,16 +9,26 @@ class Budget(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     budget_amount = models.IntegerField()
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=get_user_model())
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Budget, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('budget_detail', args=[str(self.slug)])
+
 
 class Category(models.Model):
-    budget = models.ForeignKey(Budget, on_delete=models.CASCADE)
+    budget = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='categories')
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 
 class Expense(models.Model):
     budget = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='expenses')
@@ -28,3 +39,6 @@ class Expense(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('budget_detail', args=[str(self.budget.slug)])

@@ -1,39 +1,129 @@
 {% extends "_base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{ object.name }}{% endblock title %}
 
 
 {% block content %}
-<div class="budget-detail-page">
+<s class="budget-detail-page">
 
     <div class="budget-detail-title">
         <div class="row">
-            <div class="col-md-7 pr-8 pl-0 title-box box">
-                <div class="mr-0 box-content">{{ object.name }}</div>
+
+            <div class="col-md-6 mx-auto pr-2 pl-2 box-total-spent box">
+                <div class="box-content">
+                    <div class="row">
+                        <div class="col-md-6 pr-2">
+                            <div class="box-subheading">Spending</div>
+                            $24324<br>/${{ object.budget_amount }}
+                        </div>
+                        <div class="col-md-6">
+                            Pie chart
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-5 pr-0 date-box box">
-                <div class="ml-10 box-content">{{ object.created_at}}</div>
+
+            <div class="col-md-6 pr-2 pl-2 spendings-bar-chart box">
+                <div class="box-content bar-chart-content">
+                    Bar chart goes here
+                </div>
             </div>
+
+            <!-- <div class="col-md-12 title-box box">
+                <div class="mr-0 box-content">
+                    <div class="box-subheading">Created in {{ object.created_at }}</div>
+                    Spending for {{ object.name }}
+                </div>
+            </div> -->
+            <!-- <div class="col-md-5 pr-2 pl-2 date-box box">
+                <div class="ml-0 box-content">
+                    <div class="box-subheading">Date</div>
+                    {{ object.created_at}}
+                </div>
+            </div> -->
         </div>
     </div>
 
-    <div class="budget-row">
-        <p>Total Budget: {{ object.budget_amount }}</p>
+    <div class="button-row px-2">
     
         <div class="row">
-            <div class="col-md">
-            One of three columns
+            <div class="col-md px-2">
+            
             </div>
-            <div class="col-md">
-            One of three columns
+            <div class="col-md px-2 box-content">
+                <div class="expense-button">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#expenseModal">
+                        <ion-icon name="add-circle-outline"></ion-icon></i>Add Expense
+                    </button>
+
+                </div>
             </div>
-            <div class="col-md">
-            One of three columns
+            <div class="col-md px-2 box-content">
+                <a href="#"><ion-icon name="add-circle-outline"></ion-icon> Edit Budget</a>
             </div>
         </div>
     
     
     </div>
-</div>
+
+    <div class="expense-list pt-2 px-2">
+    
+        {% for expense in object.expenses.all %}
+        <div class="row expense-row px-2 py-3">
+            <div class="col-md  px-2">
+                {{ expense.name }}
+            </div>
+            <div class="col-md  px-2">
+                {{ expense.category }}
+            </div>
+            <div class="col-md  px-2">
+                ${{ expense.cost }}
+            </div>
+        </div>
+        {% endfor %}
+
+        
+    
+    
+    </div>
+
+    <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <!-- <label for="name">Name</label>
+                        <input name="name" id="name"><br>
+        
+                        <label for="cost">Cost</label>
+                        <input name="cost" id="cost"><br>
+        
+                        <label for="category">Category</label>
+                        <select name="category" id="category">
+                            {% for category in object.categories.all %}
+                                <option>{{ category.name }}</option>
+                            {% endfor %}
+                        </select> -->
+        
+                    
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success" type="submit">Add Expense</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
 {% endblock content %}
