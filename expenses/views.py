@@ -1,9 +1,38 @@
 from django.shortcuts import render, get_object_or_404, reverse
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, FormMixin
+from django.views.generic.edit import CreateView, FormMixin, UpdateView, DeleteView
 from .models import Budget, Expense, Category
 from .forms import ExpenseForm
 from django.http import HttpResponseRedirect
+from django.utils.text import slugify
+import json
+
+
+class BudgetDeleteView(DeleteView):
+    model = Budget
+    template_name = 'expenses/budget_delete.html'
+    success_url = reverse_lazy('expense_list')
+
+class BudgetUpdateView(UpdateView):
+    model = Budget
+    template_name = 'expenses/budget_edit.html'
+    fields = ('name', 'budget_amount', 'user')
+
+    # def form_valid(self, form):
+    #     self.object = form.save(commit=False)
+    #     self.object.save()
+
+    #     categories = self.request.POST['categoriesString'].split(",")
+
+    #     for category in categories:
+    #         if category != '':
+    #             Category.objects.create (
+    #                 budget=Budget.objects.get(id=self.object.id),
+    #                 name=category
+    #             ).save()
+
+    #     return HttpResponseRedirect(self.get_success_url())
 
 
 
@@ -32,7 +61,6 @@ class BudgetDetailView(FormMixin, DetailView):
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
-            print('xD')
             name = form.cleaned_data['name']
             cost = form.cleaned_data['cost']
             category_name = form.cleaned_data['category']
@@ -50,6 +78,13 @@ class BudgetDetailView(FormMixin, DetailView):
         else:
             return self.form_invalid(form)
 
+    def delete(self, request, *args, **kwargs):
+        id = json.loads(request.body)['id']
+        expense = get_object_or_404(Expense, id=id)
+        expense.delete()
+
+        return HttpResponse('')
+
     def form_valid(self, form):
         return super(BudgetDetailView, self).form_valid(form)
 
@@ -62,3 +97,20 @@ class BudgetCreateView(CreateView):
     template_name = 'expenses/budget_create.html'
     fields = ('name', 'budget_amount', 'user')
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+
+        categories = self.request.POST['categoriesString'].split(",")
+
+        for category in categories:
+            print(self.object.categories)
+            Category.objects.create (
+                budget=Budget.objects.get(id=self.object.id),
+                name=category
+            ).save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('budget_detail', kwargs={"slug": self.object.slug})

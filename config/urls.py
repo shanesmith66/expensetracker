@@ -26,6 +26,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # local
-    path('', include('pages.urls')),
-    path('expenses/', include('expenses.urls')),
+    # path('', include('pages.urls')),
+    path('', include('expenses.urls')),
 ]

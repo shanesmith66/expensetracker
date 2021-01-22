@@ -6,22 +6,24 @@
 
 {% block content %}
 <div class="container">
-    <h1>Create new Budget</h1>
+    <h1>Edit Budget</h1>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form|crispy }}
-        <label for="categoryInput">Expense Categories (hit enter after each category)</label>
+        <!-- <label for="categoryInput">Add more categories (hit enter after each category)</label>
         <input type="text" name="categoryInput" id="categoryInput">
         <input type="hidden" name="categoriesString">
 
         <ul id="categoriesContainer">
             
-        </ul>
+        </ul> -->
 
-        <button class="btn" type="submit">Create Budget</button>
+        <button class="btn btn-secondary" type="submit">Submit Changes</button>
+        <a href="{% url 'budget_delete' budget.slug %}" class="btn btn-danger">Delete Budget</a>
+                
     </form>
 </div>
 
-<script src="{% static 'js/script.js' %}"></script>
+<!-- <script src="{% static 'js/script.js' %}"></script> -->
 
 {% endblock content %}

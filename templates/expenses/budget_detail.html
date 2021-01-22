@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-md-6 pr-2">
                             <div class="box-subheading">Spending</div>
-                            $24324<br>/${{ object.budget_amount }}
+                            ${{ object.budget_spent }}<br>/${{ object.budget_amount }}
                         </div>
                         <div class="col-md-6">
                             Pie chart
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="col-md px-2 box-content">
-                <a href="#"><ion-icon name="add-circle-outline"></ion-icon> Edit Budget</a>
+                <a href="{% url 'budget_edit' budget.slug %}" ><ion-icon name="add-circle-outline"></ion-icon> Edit Budget</a>
             </div>
         </div>
     
@@ -71,15 +71,22 @@
     <div class="expense-list pt-2 px-2">
     
         {% for expense in object.expenses.all %}
-        <div class="row expense-row px-2 py-3">
-            <div class="col-md  px-2">
-                {{ expense.name }}
-            </div>
-            <div class="col-md  px-2">
-                {{ expense.category }}
-            </div>
-            <div class="col-md  px-2">
-                ${{ expense.cost }}
+        <div class="row expense-row px-2 py-3 align-middle">
+                <div class="col-sm px-2 expense-content align-middle">
+                    {{ expense.name }}
+                </div>
+                <div class="col-sm px-2 expense-content align-middle">
+                    {{ expense.category }}
+                </div>
+                <div class="col-sm px-2 expense-content align-middle">
+                    ${{ expense.cost }}
+                </div>
+            <div class="col-md-2 px-2 remove-expense">
+                <a onclick="deleteExpense(this)" data-id="{{ expense.id }}">
+                <button type = "button" class="btn btn-danger">
+                    <ion-icon name="trash-outline" size="large"></ion-icon>
+                </button>
+                </a>
             </div>
         </div>
         {% endfor %}
@@ -126,4 +133,25 @@
         </div>
     </div>
     
+    <script>
+
+        function deleteExpense(e) {
+
+            let id = e.dataset.id
+            e.closest('.row').remove()
+
+            fetch('',{
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                'id': id
+            }),
+            credentials: 'same-origin',
+            })
+        }
+
+    </script>
+
 {% endblock content %}

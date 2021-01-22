@@ -144,7 +144,7 @@ STATICFILES_FINDERS = [
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # change to expense tracker
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'expense_list'
 ACCOUNT_LOGOUT_REDIRECT = 'login' # change to 'login'
 
 CRIPSY_TEMPLATE_PACK = 'bootstrap4'

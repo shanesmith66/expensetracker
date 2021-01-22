@@ -151,14 +151,30 @@ body {
     background-color: #f7f7f7;
     font-size: 130%;
     text-align: center;
+    position: relative;
+}
+
+.expense-content p{
+    vertical-align: middle;
 }
 
 .expense-list .expense-row:nth-child(even) {
     background-color: #e6e6e6;
 }
 
+.remove-expense {
+    color: red;
+    text-align: right;
+}
 
+/* Budget create view */
 
+form ul li.category {
+    display: inline-block;
+    background-color: white;
+    padding: 5px 10px;
+    margin-right: 5px;
+}
 
 
 

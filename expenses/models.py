@@ -21,6 +21,14 @@ class Budget(models.Model):
     def get_absolute_url(self):
         return reverse('budget_detail', args=[str(self.slug)])
 
+    def budget_spent(self):
+        expense_list = Expense.objects.filter(budget=self)
+        total_expense_amount = 0
+        for expense in expense_list:
+            total_expense_amount += expense.cost
+
+        return int(total_expense_amount)
+
 
 class Category(models.Model):
     budget = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='categories')
