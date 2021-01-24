@@ -13,6 +13,10 @@ class Budget(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=get_user_model())
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['slug'], name='slug_index')
+        ]
 
     def save(self, *args, **kwargs):
         if self.slug:  # edit
