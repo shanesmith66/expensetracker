@@ -14,11 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls import static
 from django.urls import path, include
 
 urlpatterns = [
     # admin
-    path('admin/', admin.site.urls),
+    path('accounts/admin', admin.site.urls),
 
     # set home page as login page -- eventually
 
@@ -29,3 +31,9 @@ urlpatterns = [
     # path('', include('pages.urls')),
     path('', include('expenses.urls')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

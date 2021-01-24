@@ -8,13 +8,15 @@
 </head>
 
 {% block content %}
-<div class="login-box">
-    <div class="login-box-content">
-        <h2>Log In</h2>
+<div class="container">
+    <div class="card p-5 text-center">
+        <h1>Log In</h1>
         <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button class="btn btn-success login-btn" type="submit">Log In</button>
+        <button class="btn btn-success w-25 mt-2 mb-4" type="submit">Log In</button> <br>
+        <h6 class="lead">Don't have an account?</h6>
+        <a href="{% url 'account_signup' %}" class="btn btn-outline-success w-25">Sign Up</a>
         </form>
     </div>
 </div>

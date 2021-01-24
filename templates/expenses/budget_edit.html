@@ -6,24 +6,26 @@
 
 {% block content %}
 <div class="container">
-    <h1>Edit Budget</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <!-- <label for="categoryInput">Add more categories (hit enter after each category)</label>
-        <input type="text" name="categoryInput" id="categoryInput">
-        <input type="hidden" name="categoriesString">
+    <div class="card p-5 text-center">
+        <h1>Edit Budget</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <label class="mt-2" for="categoryInput">Add more categories (hit enter after each category)</label><br>
+            <input type="text" name="categoryInput" id="categoryInput">
+            <input type="hidden" name="categoriesString" value="{{ object.category_names }}">
 
-        <ul id="categoriesContainer">
-            
-        </ul> -->
-
-        <button class="btn btn-secondary" type="submit">Submit Changes</button>
-        <a href="{% url 'budget_delete' budget.slug %}" class="btn btn-danger">Delete Budget</a>
+            <ul id="categoriesContainer">
                 
-    </form>
+            </ul>
+
+            <button class="btn btn-secondary w-50 mb-2" type="submit">Submit Changes</button> <br>
+            <a href="{% url 'budget_delete' budget.slug %}" class="btn btn-danger w-50">Delete Budget</a>
+                    
+        </form>
+    </div>
 </div>
 
-<!-- <script src="{% static 'js/script.js' %}"></script> -->
+<script src="{% static 'js/script.js' %}"></script>
 
 {% endblock content %}

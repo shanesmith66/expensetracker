@@ -6,6 +6,8 @@
 {% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="card p-5 text-center">
     <h1>{% trans "Confirm E-mail Address" %}</h1>
     {% if confirmation %}
     {% user_display confirmation.email_address.user as user_display %}
@@ -21,4 +23,6 @@ that <a href="mailto:{{ email }}">{{ email }}</a> is the correct e-mail address 
     <p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please
     <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
     {% endif %}
+    </div>
+</div>
 {% endblock %}

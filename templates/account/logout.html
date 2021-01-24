@@ -8,13 +8,13 @@
 </head>
 
 {% block content %}
-<div class="login-box">
-    <div class="login-box-content">
+<div class="container">
+    <div class="card p-5 text-center">
         <h2>Are you sure you want to log out?</h2>
         <form method="post" action="{% url 'account_logout' %}">
         {% csrf_token %}
         {{ form|crispy }}
-        <button class="btn btn-outline-success login-btn" type="submit" value="account_logout">Log Out</button>
+        <button class="btn btn-secondary login-btn" type="submit" value="account_logout">Log Out</button>
         </form>
     </div>
 </div>

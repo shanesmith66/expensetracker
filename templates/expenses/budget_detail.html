@@ -6,43 +6,55 @@
 
 
 {% block content %}
-<s class="budget-detail-page">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <div class="budget-detail-title">
-        <div class="row">
+    <div class="budget-detail-title mh-100">
+        <div class="row h-100">
 
-            <div class="col-md-6 mx-auto pr-2 pl-2 box-total-spent box">
-                <div class="box-content">
-                    <div class="row">
-                        <div class="col-md-6 pr-2">
-                            <div class="box-subheading">Spending</div>
-                            ${{ object.budget_spent }}<br>/${{ object.budget_amount }}
+            <div class="col-md-4 card-group h-100">
+                <div class="card text-center">
+                    <div class="card-body p-0 h-100">
+                        <div class="card-title px-2 pt-3"><h2>{{ object.name }}</h2></div>
+                        <hr/>
+                        <div class="card-text bold py-2">
+                            <div class="card-subtitle lead p-auto">Spending</div>
+                            <h1><strong>${{ object.budget_spent }} of ${{ object.budget_amount }}</strong></h1>
                         </div>
-                        <div class="col-md-6">
-                            Pie chart
+                        <div class="card-footer mt-2">
+                            Created: {{ object.created_at }}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 pr-2 pl-2 spendings-bar-chart box">
-                <div class="box-content bar-chart-content">
-                    Bar chart goes here
+            <div class="col-md-8 spendings-bar-chart card-group">
+                <div class="card card-group bar-chart-content">
+                    <div id="container" style="width: 100%;">
+                        <canvas id="spending-chart"></canvas>
+                        <script>
+                            let ctx = document.getElementById('spending-chart');
+                            $.ajax({
+                                url: 'spending-chart/',
+                                success: function(response){
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                    labels: response.labels,
+                                    datasets: [{
+                                        label: "Spending by Category",
+                                        data: response.data,
+                                        backgroundColor: 'rgba(92, 184, 92, 0.5)',
+                                        borderColor: 'rgb(92, 184, 92)',
+                                        borderWidth: 2,
+                                    }]
+                                    }
+                                });
+                                }
+                            });
+                        </script>
+                    </div>
                 </div>
             </div>
-
-            <!-- <div class="col-md-12 title-box box">
-                <div class="mr-0 box-content">
-                    <div class="box-subheading">Created in {{ object.created_at }}</div>
-                    Spending for {{ object.name }}
-                </div>
-            </div> -->
-            <!-- <div class="col-md-5 pr-2 pl-2 date-box box">
-                <div class="ml-0 box-content">
-                    <div class="box-subheading">Date</div>
-                    {{ object.created_at}}
-                </div>
-            </div> -->
         </div>
     </div>
 
@@ -52,33 +64,47 @@
             <div class="col-md px-2">
             
             </div>
-            <div class="col-md px-2 box-content">
-                <div class="expense-button">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#expenseModal">
-                        <ion-icon name="add-circle-outline"></ion-icon></i>Add Expense
+            <div class="col-md px-2 bg-transparent shadow-none border-none text-center">
+                <div class="expense-button text-center">
+                    <button type="button" class="btn btn-success shadow px-5 btn-lg btn-block" data-toggle="modal" data-target="#expenseModal">
+                        Add Expense
                     </button>
 
                 </div>
             </div>
-            <div class="col-md px-2 box-content">
-                <a href="{% url 'budget_edit' budget.slug %}" ><ion-icon name="add-circle-outline"></ion-icon> Edit Budget</a>
+            <div class="col-md px-2 text-center">
+                <a role="button" href="{% url 'budget_edit' budget.slug %}" class="btn btn-secondary shadow btn-lg px-5 btn-block">Edit Budget</a>
             </div>
         </div>
     
     
     </div>
 
-    <div class="expense-list pt-2 px-2">
+    <div class="expense-list pt-0 px-2">
+
+        <div class="row expense-row px-2 py-2 align-items-center">
+            <div class="col-sm px-2 expense-content">
+                <span class="align-middle"></span>Name</span>
+            </div>
+            <div class="col-sm px-2 expense-content">
+                Category
+            </div>
+            <div class="col-sm px-2 expense-content">
+                Cost
+            </div>
+        <div class="col-md-2 px-2 remove-expense">
+        </div>
+        </div>
     
         {% for expense in object.expenses.all %}
-        <div class="row expense-row px-2 py-3 align-middle">
-                <div class="col-sm px-2 expense-content align-middle">
-                    {{ expense.name }}
+        <div class="row expense-row px-2 py-2 align-items-center lead">
+                <div class="col-sm px-2 expense-content">
+                    <span class="align-middle"></span>{{ expense.name }}</span>
                 </div>
-                <div class="col-sm px-2 expense-content align-middle">
+                <div class="col-sm px-2 expense-content">
                     {{ expense.category }}
                 </div>
-                <div class="col-sm px-2 expense-content align-middle">
+                <div class="col-sm px-2 expense-content">
                     ${{ expense.cost }}
                 </div>
             <div class="col-md-2 px-2 remove-expense">
@@ -150,8 +176,53 @@
             }),
             credentials: 'same-origin',
             })
+            location.reload()
         }
 
     </script>
+<!-- 
+    <script>
+
+        <!-- $(function () {
+
+        var $spendingChart = $("#spending-chart");
+        $.ajax({
+            url: $spendingChart.data("url"),
+            success: function (data) {
+
+            var ctx = $spendingChart[0].getContext("2d");
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                datasets: [{
+                    label: 'Spending',
+                    backgroundColor: 'blue',
+                    data: data.data
+                    }]          
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Spending By Category Bar Chart'
+                }
+                }
+                });
+
+            }
+            });
+
+        });
+
+    </script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<!-- <script src="{% static 'js/spendingchart.js' %}"></script> -->
+
 
 {% endblock content %}

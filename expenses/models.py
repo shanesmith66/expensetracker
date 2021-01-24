@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils.text import slugify
+from .utils import generate_unique_slug
 from django.urls import reverse
+from django.utils.text import slugify
 
 # Create your models here.
 class Budget(models.Model):
@@ -10,10 +11,17 @@ class Budget(models.Model):
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     budget_amount = models.IntegerField()
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=get_user_model())
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        if self.slug:  # edit
+            if slugify(self.name) != self.slug:
+                self.slug = generate_unique_slug(Budget, self.name)
+        else:  # create
+            self.slug = generate_unique_slug(Budget, self.name)
         super(Budget, self).save(*args, **kwargs)
+
 
     def __str__(self):
         return self.name
@@ -28,6 +36,15 @@ class Budget(models.Model):
             total_expense_amount += expense.cost
 
         return int(total_expense_amount)
+
+    def category_names(self):
+        category_list = Category.objects.filter(budget=self)
+        names = [category.name for category in category_list]
+        return names
+
+        
+
+
 
 
 class Category(models.Model):
@@ -50,3 +67,5 @@ class Expense(models.Model):
 
     def get_absolute_url(self):
         return reverse('budget_detail', args=[str(self.budget.slug)])
+
+

@@ -1,16 +1,63 @@
 {% extends "_base.html" %}
+{% load static %}
 
 {% block title %}Budgets{% endblock title %}
 
 {% block content %}
 
-    {% for budget in object_list %}
-    <div class="budget-list">
-        <div class="row">
-            <h2><a href="{% url 'budget_create' %}">+ Create New Budget</a></h2>
+<div class="container">
+        <div class="card title-card">
+            <div class="row">
+                <div class="card-body text-center"> 
+                    <h1>My Budgets</h1>
+                </div>
+            </div>
         </div>
-        <p><a href="{% url 'budget_detail' budget.slug %}">{{ budget.name }}</a></p>
+    
+    {% if not object_list %}
+    <div class="row pb-2 px-1">
+        <div class="col-md-4 pt-4 px-2 card-group">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h2>Create a New Budget</h2>
+                    <a href="{% url 'budget_create' %}" class="btn btn-success mt-4 mb-2 w-100">New Budget</a>
+                </div>
+            </div>
+        </div>
     </div>
+    {% endif %}
+    
+    {% for budget in object_list %}
+    {% if forloop.first %}<div class="row pb-2 px-2">{% endif %}
+            <div class="col-md-4 pt-4 px-2 card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title pb-1">{{ budget.name }}</h3>
+                        <h6 class="card-subtitle text-muted">Created: {{ budget.created_at }}</h6>
+                        
+                        <h5 class="card-text lead pt-3">Total Budget: ${{ budget.budget_amount }}</h5>
+                        <h5 class="card-text lead pb-3">Money Spent: ${{ budget.budget_spent }} </h5>
+                        <a href = "{% url 'budget_edit' budget.slug %}" class="btn btn-secondary mr-2 mb-2">Edit Budget</a>
+                        <a href="{% url 'budget_detail' budget.slug %}" class="btn btn-success mb-2">View Budget</a>
+                        
+                    </div>
+                    <div class="card-footer">Last Updated: {{ budget.updated_at }}</div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}</div><div class="row pb-2 px-1">{% endif %}
+            {% if forloop.last %}
+                <div class="col-md-4 pt-4 px-2 card-group">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h2>Create a New Budget</h2>
+                            <a href="{% url 'budget_create' %}" class="btn btn-success mt-4 mb-2 w-100">New Budget</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
     {% endfor %}
+    
+</div>
 
 {% endblock content %}
