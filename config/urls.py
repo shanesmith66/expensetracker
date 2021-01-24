@@ -20,7 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     # admin
-    path('accounts/admin', admin.site.urls),
+    path('accounts/definitely-not-admin', admin.site.urls),
 
     # set home page as login page -- eventually
 
